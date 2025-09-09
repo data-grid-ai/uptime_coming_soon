@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FormSubmission {
+  id        String   @id @default(cuid())
+  name      String   @default("")
+  state     String   @default("Alabama")
+  email     String
+  phone     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("form_submissions")
+}
+
+model DriverSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  state     String   @default("Alabama")
+  cdlType   String   // A, B, or C
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("driver_submissions")
+}
+
+model FleetManagerSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  state       String   @default("Alabama")
+  companyName String
+  fleetSize   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("fleet_manager_submissions")
+}

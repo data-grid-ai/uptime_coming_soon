@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Framelink-figma__get_figma_data",
+      "Bash(npm run build:*)"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}
