@@ -107,11 +107,16 @@ export default async function handler(
       })
     }
 
-    // Send Slack notification
-    await sendSlackNotification({
-      ...formData,
-      submissionId: submission.id,
-    })
+    // Send Slack notification (don't fail if Slack fails)
+    try {
+      await sendSlackNotification({
+        ...formData,
+        submissionId: submission.id,
+      })
+      console.log('Slack notification sent successfully')
+    } catch (slackError) {
+      console.error('Slack notification failed, but form submission succeeded:', slackError)
+    }
 
     res.status(200).json({ 
       success: true, 
@@ -130,7 +135,12 @@ export default async function handler(
 
 async function sendSlackNotification(data: FormData & { submissionId: string }) {
   try {
-    const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+    const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL
+    
+    if (!SLACK_WEBHOOK_URL) {
+      console.error('SLACK_WEBHOOK_URL environment variable is not set')
+      return
+    }
     
     const userTypeText = data.userType === 'driver' ? 'Driver' : 'Fleet Manager'
     const emoji = data.userType === 'driver' ? '🚛' : '🏢'
@@ -231,6 +241,8 @@ async function sendSlackNotification(data: FormData & { submissionId: string }) 
       ]
     }
 
+    console.log('Sending Slack notification...', { submissionId: data.submissionId, userType: data.userType })
+    
     const response = await fetch(SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: {
@@ -240,7 +252,13 @@ async function sendSlackNotification(data: FormData & { submissionId: string }) 
     })
 
     if (!response.ok) {
-      throw new Error(`Slack webhook failed: ${response.status} ${response.statusText}`)
+      const errorText = await response.text()
+      console.error('Slack webhook error response:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText
+      })
+      throw new Error(`Slack webhook failed: ${response.status} ${response.statusText} - ${errorText}`)
     }
 
     console.log('Slack notification sent successfully')
