@@ -122,7 +122,14 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
   });
 
   const handleInputChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    let value = event.target.value;
+    
+    // For phone number fields, only allow numbers and common phone formatting characters
+    if (field === 'phone') {
+      // Allow numbers, spaces, parentheses, hyphens, and plus sign
+      value = value.replace(/[^0-9\s\(\)\-\+]/g, '');
+    }
+    
     setFormData({ ...formData, [field]: value });
     
     // Clear error when user starts typing
@@ -133,48 +140,78 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
 
   const handleSelectChange = (field: string) => (event: any) => {
     setFormData({ ...formData, [field]: event.target.value });
+    
+    // Clear error when user makes a selection
+    if (errors[field as keyof typeof errors]) {
+      setErrors({ ...errors, [field]: '' });
+    }
+  };
+
+  const handleTabChange = (tab: 'driver' | 'fleet') => {
+    setActiveTab(tab);
+    // Clear all errors when switching tabs
+    setErrors({
+      name: '',
+      email: '',
+      phone: '',
+      companyName: '',
+      fleetSize: '',
+      cdlType: ''
+    });
   };
 
   const validateForm = () => {
     const newErrors = { name: '', email: '', phone: '', companyName: '', fleetSize: '', cdlType: '' };
     let isValid = true;
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-      isValid = false;
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-      isValid = false;
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone is required';
-      isValid = false;
-    }
-
-    // Fleet Manager specific validations
-    if (activeTab === 'fleet') {
-      if (!formData.companyName.trim()) {
-        newErrors.companyName = 'Company name is required';
-        isValid = false;
-      }
-      if (!formData.fleetSize.trim()) {
-        newErrors.fleetSize = 'Fleet size is required';
-        isValid = false;
-      }
-    }
-
-    // Driver specific validations
     if (activeTab === 'driver') {
+      // CDL Driver validations
+      if (!formData.name.trim()) {
+        newErrors.name = 'Name is required';
+        isValid = false;
+      }
+
+      if (!formData.phone.trim()) {
+        newErrors.phone = 'Phone is required';
+        isValid = false;
+      }
+
+      // Email is optional for drivers, but validate format if provided
+      if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+
       if (!formData.cdlType.trim()) {
         newErrors.cdlType = 'CDL type is required';
         isValid = false;
       }
+    } else if (activeTab === 'fleet') {
+      // Fleet Manager validations
+      if (!formData.companyName.trim()) {
+        newErrors.companyName = 'Company name is required';
+        isValid = false;
+      }
+
+      if (!formData.name.trim()) {
+        newErrors.name = 'Name is required';
+        isValid = false;
+      }
+
+      if (!formData.phone.trim()) {
+        newErrors.phone = 'Phone is required';
+        isValid = false;
+      }
+
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required';
+        isValid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+
+      // Fleet size is optional - no validation needed
     }
 
     setErrors(newErrors);
@@ -371,7 +408,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                 maxWidth: { xs: '100%', sm: '600px' },
               }}>
                 <Box
-                  onClick={() => setActiveTab('driver')}
+                  onClick={() => handleTabChange('driver')}
                   sx={{
                     px: { xs: '12px', sm: '20px', md: '30px', lg: '40px' },
                     py: { xs: '8px', sm: '10px', md: '12px', lg: '15px' },
@@ -394,7 +431,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                   CDL Driver
                 </Box>
                 <Box
-                  onClick={() => setActiveTab('fleet')}
+                  onClick={() => handleTabChange('fleet')}
                   sx={{
                     px: { xs: '12px', sm: '20px', md: '30px', lg: '40px' },
                     py: { xs: '8px', sm: '10px', md: '12px', lg: '15px' },
@@ -442,16 +479,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     >
                       Full Name *
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      As it appears on your CDL.
-                    </Typography>
                     <TextField
                       value={formData.name}
                       onChange={handleInputChange('name')}
@@ -490,16 +517,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     >
                       Mobile Number *
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      We'll text you matches — no spam.
-                    </Typography>
                     <TextField
                       value={formData.phone}
                       onChange={handleInputChange('phone')}
@@ -507,6 +524,8 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       variant="standard"
                       fullWidth
                       error={!!errors.phone}
+                      inputMode="tel"
+                      type="tel"
                       InputProps={{
                         disableUnderline: true,
                         sx: {
@@ -549,17 +568,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                         fontFamily: 'var(--font-inter)',
                       }}
                     >
-                      Email Address *
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      For updates and account access.
+                      Email Address 
                     </Typography>
                     <TextField
                       value={formData.email}
@@ -598,16 +607,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       }}
                     >
                       Home State
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      So we can show you nearby jobs.
                     </Typography>
                     <FormControl fullWidth variant="standard">
                       <Select
@@ -687,17 +686,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                         fontFamily: 'var(--font-inter)',
                       }}
                     >
-                      Your CDL Type *
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      Select A, B, or C.
+                      Your CDL Type
                     </Typography>
                     <FormControl fullWidth variant="standard">
                       <Select
@@ -789,16 +778,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     >
                       Your Company / Fleet Name *
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      We'll use this to personalize your dashboard.
-                    </Typography>
                     <TextField
                       value={formData.companyName}
                       onChange={handleInputChange('companyName')}
@@ -837,16 +816,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     >
                       Your Name *
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      So we know who to reach out to.
-                    </Typography>
                     <TextField
                       value={formData.name}
                       onChange={handleInputChange('name')}
@@ -879,44 +848,36 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                   gap: { xs: '24px', sm: '28px', md: '40px', lg: '60px', xl: '80px' }, 
                   mb: { xs: '24px', sm: '28px', md: '35px', lg: '45px', xl: '50px' } 
                 }}>
-                  {/* Number of Trucks in Your Fleet */}
+                  {/* Best Contact Number */}
                   <Box sx={{ flex: 1 }}>
                     <Typography
                       sx={{
                         fontSize: '12px',
                         fontWeight: 600,
-                        color: errors.fleetSize ? '#d32f2f' : 'rgba(34,44,36,0.5)',
+                        color: errors.phone ? '#d32f2f' : 'rgba(34,44,36,0.5)',
                         textTransform: 'uppercase',
                         mb: { xs: '6px', sm: '8px' },
                         fontFamily: 'var(--font-inter)',
                       }}
                     >
-                      Number of Trucks in Your Fleet *
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      Even a ballpark helps us customize your setup.
+                      Best Contact Number *
                     </Typography>
                     <TextField
-                      value={formData.fleetSize}
-                      onChange={handleInputChange('fleetSize')}
-                      placeholder="e.g., 10-50 trucks"
+                      value={formData.phone}
+                      onChange={handleInputChange('phone')}
+                      placeholder="+1 (555) 123-4567"
                       variant="standard"
                       fullWidth
-                      error={!!errors.fleetSize}
+                      error={!!errors.phone}
+                      inputMode="tel"
+                      type="tel"
                       InputProps={{
                         disableUnderline: true,
                         sx: {
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.fleetSize ? '#d32f2f' : '#222c24',
+                          color: errors.phone ? '#d32f2f' : '#222c24',
                           '&::placeholder': {
                             color: 'rgba(34,44,36,0.5)',
                             opacity: 1,
@@ -924,10 +885,10 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                         }
                       }}
                     />
-                    <Box sx={{ height: '1px', backgroundColor: errors.fleetSize ? '#d32f2f' : '#c9c9c9', borderRadius: '40px', mt: '4px' }} />
-                    {errors.fleetSize && (
+                    <Box sx={{ height: '1px', backgroundColor: errors.phone ? '#d32f2f' : '#c9c9c9', borderRadius: '40px', mt: '4px' }} />
+                    {errors.phone && (
                       <Typography sx={{ fontSize: '12px', color: '#d32f2f', mt: 1, fontFamily: 'var(--font-inter)' }}>
-                        {errors.fleetSize}
+                        {errors.phone}
                       </Typography>
                     )}
                   </Box>
@@ -945,16 +906,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       }}
                     >
                       Work Email *
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      We'll send your waitlist confirmation here.
                     </Typography>
                     <TextField
                       value={formData.email}
@@ -988,55 +939,81 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                   gap: { xs: '24px', sm: '28px', md: '40px', lg: '60px', xl: '80px' }, 
                   mb: { xs: '24px', sm: '28px', md: '35px', lg: '45px', xl: '50px' } 
                 }}>
-                  {/* Best Contact Number */}
+                  
+                  {/* Number of Trucks in Your Fleet */}
                   <Box sx={{ flex: 1 }}>
                     <Typography
                       sx={{
                         fontSize: '12px',
                         fontWeight: 600,
-                        color: errors.phone ? '#d32f2f' : 'rgba(34,44,36,0.5)',
+                        color: errors.fleetSize ? '#d32f2f' : 'rgba(34,44,36,0.5)',
                         textTransform: 'uppercase',
                         mb: { xs: '6px', sm: '8px' },
                         fontFamily: 'var(--font-inter)',
                       }}
                     >
-                      Best Contact Number *
+                      Number of Trucks in Your Fleet
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      Optional — only used for onboarding support.
-                    </Typography>
-                    <TextField
-                      value={formData.phone}
-                      onChange={handleInputChange('phone')}
-                      placeholder="+1 (555) 123-4567"
-                      variant="standard"
-                      fullWidth
-                      error={!!errors.phone}
-                      InputProps={{
-                        disableUnderline: true,
-                        sx: {
+                    <FormControl fullWidth variant="standard">
+                      <Select
+                        value={formData.fleetSize}
+                        onChange={handleSelectChange('fleetSize')}
+                        displayEmpty
+                        disableUnderline
+                        error={!!errors.fleetSize}
+                        sx={{
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.phone ? '#d32f2f' : '#222c24',
-                          '&::placeholder': {
-                            color: 'rgba(34,44,36,0.5)',
-                            opacity: 1,
-                          }
-                        }
-                      }}
-                    />
-                    <Box sx={{ height: '1px', backgroundColor: errors.phone ? '#d32f2f' : '#c9c9c9', borderRadius: '40px', mt: '4px' }} />
-                    {errors.phone && (
+                          color: errors.fleetSize ? '#d32f2f' : (formData.fleetSize ? '#222c24' : 'rgba(34,44,36,0.5)'),
+                          '&:before': {
+                            display: 'none',
+                          },
+                          '&:after': {
+                            display: 'none',
+                          },
+                          '& .MuiSelect-icon': {
+                            right: '17px',
+                            width: '12px',
+                            height: '7px',
+                          },
+                        }}
+                        IconComponent={() => (
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              right: '17px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: '12px',
+                              height: '7px',
+                              pointerEvents: 'none',
+                            }}
+                          >
+                            <svg width="13" height="8" fill="none" viewBox="0 0 13 8">
+                              <path d={modalSvgPaths.p281e4100} fill="#0F172A" />
+                            </svg>
+                          </Box>
+                        )}
+                      >
+                        <MenuItem value="" disabled sx={{ fontSize: '16px', fontFamily: 'var(--font-inter)', fontWeight: 400, color: 'rgba(34,44,36,0.5)' }}>
+                          Select fleet size
+                        </MenuItem>
+                        <MenuItem value="25-99" sx={{ fontSize: '16px', fontFamily: 'var(--font-inter)', fontWeight: 400 }}>
+                          25-99
+                        </MenuItem>
+                        <MenuItem value="100-249" sx={{ fontSize: '16px', fontFamily: 'var(--font-inter)', fontWeight: 400 }}>
+                          100-249
+                        </MenuItem>
+                        <MenuItem value="250-499" sx={{ fontSize: '16px', fontFamily: 'var(--font-inter)', fontWeight: 400 }}>
+                          250-499
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                    <Box sx={{ height: '1px', backgroundColor: errors.fleetSize ? '#d32f2f' : '#c9c9c9', borderRadius: '40px', mt: '4px' }} />
+                    {errors.fleetSize && (
                       <Typography sx={{ fontSize: '12px', color: '#d32f2f', mt: 1, fontFamily: 'var(--font-inter)' }}>
-                        {errors.phone}
+                        {errors.fleetSize}
                       </Typography>
                     )}
                   </Box>
@@ -1054,16 +1031,6 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       }}
                     >
                       Operating State
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: '11px',
-                        color: 'rgba(34,44,36,0.6)',
-                        mb: { xs: '16px', sm: '19px' },
-                        fontFamily: 'var(--font-inter)',
-                      }}
-                    >
-                      Where your trucks are based or primarily run.
                     </Typography>
                     <FormControl fullWidth variant="standard">
                       <Select
