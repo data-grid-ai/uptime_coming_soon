@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import {
   Box,
   Button,
@@ -19,6 +20,7 @@ import { Phone, Email, LocationOn, ArrowForward } from '@mui/icons-material';
 import svgPaths from '../imports/svg-11ii49tsrw';
 import modalSvgPaths from '../imports/svg-hjy3y4q6kq';
 import ManifestoPage from '../components/ManifestoPage';
+import CookieBanner from '../components/CookieBanner';
 
 function UptimeLogo({ color = "white", size = "large" }: { color?: string; size?: string }) {
   const scale = size === "large" ? 1.0 : size === "medium" ? 0.8 : 0.6;
@@ -1355,9 +1357,25 @@ function Footer() {
             textAlign: 'center',
           }}
         >
-          <Typography sx={{ opacity: 0.5, fontSize: '14px' }}>
+          <Typography sx={{ opacity: 0.5, fontSize: '14px', mb: 1 }}>
             Copyright 2025 © <span style={{ fontWeight: 600 }}>uptime</span>
           </Typography>
+          <NextLink href="/privacy-policy" style={{ textDecoration: 'none' }}>
+            <Typography 
+              sx={{ 
+                opacity: 0.7, 
+                fontSize: '12px',
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                color: 'inherit',
+                '&:hover': {
+                  opacity: 1
+                }
+              }}
+            >
+              Privacy Policy
+            </Typography>
+          </NextLink>
         </Box>
       </Container>
     </Paper>
@@ -1372,6 +1390,28 @@ export default function HomePage() {
   const handleCloseModal = () => setModalOpen(false);
   const handleShowManifesto = () => setShowManifesto(true);
   const handleBackToMain = () => setShowManifesto(false);
+
+  const handleCookieConsent = (preferences: { essential: boolean; analytics: boolean; marketing: boolean }) => {
+    // Handle cookie consent changes
+    console.log('Cookie preferences updated:', preferences);
+    
+    // Here you could integrate with analytics scripts based on user consent
+    if (preferences.analytics) {
+      // Enable analytics tracking
+      console.log('Analytics cookies enabled');
+    } else {
+      // Disable analytics tracking
+      console.log('Analytics cookies disabled');
+    }
+    
+    if (preferences.marketing) {
+      // Enable marketing cookies
+      console.log('Marketing cookies enabled');
+    } else {
+      // Disable marketing cookies
+      console.log('Marketing cookies disabled');
+    }
+  };
 
   return (
     <>
@@ -1497,12 +1537,77 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
+            position: 'relative',
           }}
         >
           <HeroSection onOpenModal={handleOpenModal} onShowManifesto={handleShowManifesto} />
+          
+          {/* Simple Policy Links at Bottom */}
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 20,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              textAlign: 'center',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <NextLink href="/privacy-policy" style={{ textDecoration: 'none' }}>
+                <Typography 
+                  sx={{ 
+                    opacity: 0.6, 
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    color: '#0F172A',
+                    fontFamily: 'var(--font-inter)',
+                    '&:hover': {
+                      opacity: 1
+                    }
+                  }}
+                >
+                  Privacy Policy
+                </Typography>
+              </NextLink>
+              
+              <Box sx={{ mx: 1 }}>
+                <Typography
+                  sx={{
+                    opacity: 0.4,
+                    fontSize: '12px',
+                    color: '#0F172A',
+                    fontFamily: 'var(--font-inter)',
+                    userSelect: 'none',
+                  }}
+                >
+                  •
+                </Typography>
+              </Box>
+              
+              <NextLink href="/cookie-policy" style={{ textDecoration: 'none' }}>
+                <Typography 
+                  sx={{ 
+                    opacity: 0.6, 
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    color: '#0F172A',
+                    fontFamily: 'var(--font-inter)',
+                    '&:hover': {
+                      opacity: 1
+                    }
+                  }}
+                >
+                  Cookie Policy
+                </Typography>
+              </NextLink>
+            </Box>
+          </Box>
         </Box>
       )}
       <EmailSignupModal open={modalOpen} onClose={handleCloseModal} />
+      <CookieBanner onConsentChange={handleCookieConsent} />
     </>
   );
 }
