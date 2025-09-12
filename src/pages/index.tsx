@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 import {
   Box,
   Button,
@@ -1374,6 +1375,15 @@ export default function HomePage() {
 
   return (
     <>
+      <Head>
+        <title>Uptime - CDL Hiring in 48 Hours | Join the Waitlist</title>
+        <meta 
+          name="description" 
+          content="Join 500+ fleets and 10,000+ CDL drivers on Uptime's waitlist. Fleets: hire in 48 hours, 70% lower costs. Drivers: skip the wait, get matched instantly." 
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {showManifesto ? (
         <ManifestoPage onBackClick={handleBackToMain} onOpenModal={handleOpenModal} />
       ) : (
