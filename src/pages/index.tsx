@@ -1385,6 +1385,88 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/favicon.png" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebPage",
+                  "@id": "https://www.getuptime.ai",
+                  "name": "Uptime - CDL Hiring in 48 Hours | Join the Waitlist",
+                  "description": "Join 500+ fleets and 10,000+ CDL drivers on Uptime's waitlist. Fleets: hire in 48 hours, 70% lower costs. Drivers: skip the wait, get matched instantly.",
+                  "url": "https://www.getuptime.ai",
+                  "publisher": {
+                    "@type": "Organization",
+                    "name": "Uptime",
+                    "alternateName": "Uptime AI",
+                    "url": "https://www.getuptime.ai",
+                    "logo": "https://www.getuptime.ai/favicon.png",
+                    "sameAs": [
+                      "https://www.linkedin.com/company/uptime-ai/",
+                      "https://www.tiktok.com/@uptime.ai",
+                      "https://www.youtube.com/@ai.uptime"
+                    ]
+                  },
+                  "mainEntity": {
+                    "@type": "SoftwareApplication",
+                    "name": "Uptime CDL Hiring OS",
+                    "description": "AI-powered CDL driver hiring platform that connects fleets with drivers in 48 hours",
+                    "applicationCategory": "BusinessApplication",
+                    "operatingSystem": "Web-based",
+                    "softwareVersion": "Beta",
+                    "offers": {
+                      "@type": "Offer",
+                      "availability": "https://schema.org/PreOrder",
+                      "description": "Currently in closed beta - join waitlist for early access."
+                    },
+                    "featureList": [
+                      "48-hour CDL driver hiring",
+                      "70% reduction in hiring costs",
+                      "Automated compliance verification",
+                      "AI-powered driver matching",
+                      "Audit-ready driver files",
+                      "Predictive retention analytics"
+                    ],
+                    "audience": {
+                      "@type": "Audience",
+                      "audienceType": ["Fleet Managers", "CDL Drivers", "Trucking Companies"]
+                    }
+                  }
+                },
+                {
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "How do I get access to Uptime?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Uptime is currently in closed beta. Join our waitlist at getuptime.ai for early access when we launch."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How fast can Uptime fill empty trucks?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Uptime delivers matched, audit-ready CDL drivers in under 48 hours, compared to the industry average of 3-4 weeks."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How does Uptime reduce hiring costs?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Uptime reduces CDL driver hiring costs by 70% compared to traditional recruitment agencies, while delivering faster results and better retention."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          `}
+        </script>
       </Head>
       {showManifesto ? (
         <ManifestoPage onBackClick={handleBackToMain} onOpenModal={handleOpenModal} />
