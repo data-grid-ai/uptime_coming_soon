@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Box,
   Button,
@@ -22,7 +23,6 @@ import {
 import { Phone, Email, LocationOn, ArrowForward, ExpandMore } from '@mui/icons-material';
 import svgPaths from '../imports/svg-11ii49tsrw';
 import modalSvgPaths from '../imports/svg-hjy3y4q6kq';
-import ManifestoPage from '../components/ManifestoPage';
 import CookieBanner from '../components/CookieBanner';
 
 function UptimeLogo({ color = "white", size = "large" }: { color?: string; size?: string }) {
@@ -1171,7 +1171,7 @@ Submit
   );
 }
 
-function HeroSection({ onOpenModal, onShowManifesto }: { onOpenModal: () => void; onShowManifesto: () => void }) {
+function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
   return (
     <Box
       sx={{
@@ -1272,25 +1272,27 @@ function HeroSection({ onOpenModal, onShowManifesto }: { onOpenModal: () => void
           </Box>
         </Button>
         
-        <Button
-          variant="outlined"
-          onClick={onShowManifesto}
-          sx={{
-            width: '312px',
-            backgroundColor: 'white',
-            color: '#222c24',
-            borderColor: '#000',
-            borderWidth: '2px',
-            boxShadow: 'none',
-            '&:hover': {
-              backgroundColor: '#f5f5f5',
+        <NextLink href="/manifesto" passHref>
+          <Button
+            variant="outlined"
+            component="a"
+            sx={{
+              width: '312px',
+              backgroundColor: 'white',
+              color: '#222c24',
+              borderColor: '#000',
               borderWidth: '2px',
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-            },
-          }}
-        >
-          Mr. Rigg's Manifesto
-        </Button>
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: '#f5f5f5',
+                borderWidth: '2px',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+              },
+            }}
+          >
+            Mr. Rigg's Manifesto
+          </Button>
+        </NextLink>
       </Box>
     </Box>
   );
@@ -1538,13 +1540,24 @@ function Footer() {
 }
 
 export default function HomePage() {
+  const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
-  const [showManifesto, setShowManifesto] = useState(false);
 
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    if (router.query.modal === 'open') {
+      setModalOpen(true);
+    } else {
+      setModalOpen(true);
+    }
+  };
   const handleCloseModal = () => setModalOpen(false);
-  const handleShowManifesto = () => setShowManifesto(true);
-  const handleBackToMain = () => setShowManifesto(false);
+
+  // Check if modal should be opened based on URL parameter
+  React.useEffect(() => {
+    if (router.query.modal === 'open') {
+      setModalOpen(true);
+    }
+  }, [router.query.modal]);
 
   const handleCookieConsent = (preferences: { essential: boolean; analytics: boolean; marketing: boolean }) => {
     // Handle cookie consent changes
@@ -1747,19 +1760,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           `}
         </script>
       </Head>
-      {showManifesto ? (
-        <ManifestoPage onBackClick={handleBackToMain} onOpenModal={handleOpenModal} />
-      ) : (
-        <Box
-          sx={{
-            backgroundColor: '#f6ffed',
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative',
-          }}
-        >
-          <HeroSection onOpenModal={handleOpenModal} onShowManifesto={handleShowManifesto} />
+      <Box
+        sx={{
+          backgroundColor: '#f6ffed',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'relative',
+        }}
+      >
+        <HeroSection onOpenModal={handleOpenModal} />
           
           <FAQSection />
           
@@ -1825,8 +1835,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </NextLink>
             </Box>
           </Box>
-        </Box>
-      )}
+      </Box>
       <EmailSignupModal open={modalOpen} onClose={handleCloseModal} />
       <CookieBanner onConsentChange={handleCookieConsent} />
     </>
