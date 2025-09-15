@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Typography, Container, Paper, IconButton, Button } from '@mui/material';
+import { Box, Typography, Container, Paper, IconButton, Button, Link } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import NextLink from 'next/link';
 import svgPaths from '../imports/svg-06sbh1iz2u';
+import SharedFooter from './SharedFooter';
 const imgChatGptImageAug282025080246Am1 = "/assets/eea2ce88e82749d0a913c7270d5bdac04c55e0b5.png";
 
 function UptimeLogoManifesto({ color = "dark", size = "medium" }: { color?: string; size?: string }) {
@@ -415,61 +417,13 @@ function ManifestoContent({ onOpenModal }: { onOpenModal: () => void }) {
   );
 }
 
-function ManifestoFooter({ onBackClick }: { onBackClick: () => void }) {
-  return (
-    <Paper
-      sx={{
-        backgroundColor: '#0F172A',
-        color: 'white',
-        minHeight: { xs: '80px', md: '100px' },
-        px: { xs: 2, sm: 4, md: 0 },
-        py: { xs: 2, md: 0 },
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'relative',
-      }}
-    >
-      <Box sx={{ 
-        position: { xs: 'static', md: 'absolute' },
-        left: { md: '310px' },
-        top: { md: '19px' },
-        cursor: 'pointer'
-      }}
-      onClick={onBackClick}
-      >
-        <Box sx={{ transform: { xs: 'scale(0.8)', md: 'scale(1)' } }}>
-          <UptimeLogoManifesto color="white" size="small" />
-        </Box>
-      </Box>
-      
-      <Box sx={{ 
-        position: { xs: 'static', md: 'absolute' },
-        right: { md: '310px' },
-        top: { md: '41px' },
-        textAlign: { xs: 'right', md: 'left' }
-      }}>
-          <Typography 
-            sx={{ 
-              fontSize: { xs: '12px', md: '14px' },
-              fontWeight: 300,
-              opacity: 0.5,
-              fontFamily: 'var(--font-inter)',
-            }}
-          >
-            Copyright 2025 © <span style={{ fontWeight: 600 }}>uptime</span>
-          </Typography>
-      </Box>
-    </Paper>
-  );
-}
 
 export default function ManifestoPage({ onBackClick, onOpenModal }: { onBackClick: () => void; onOpenModal: () => void }) {
   return (
     <Box sx={{ backgroundColor: 'white', minHeight: '100vh' }}>
       <ManifestoHeader onBackClick={onBackClick} />
       <ManifestoContent onOpenModal={onOpenModal} />
-      <ManifestoFooter onBackClick={onBackClick} />
+      <SharedFooter onBackClick={onBackClick} />
     </Box>
   );
 }

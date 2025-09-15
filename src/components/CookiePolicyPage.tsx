@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Typography, Container, Paper, IconButton } from '@mui/material';
+import NextLink from 'next/link';
+import { Box, Typography, Container, Paper, IconButton, Link } from '@mui/material';
 import svgPaths from '../imports/svg-06sbh1iz2u';
+import SharedFooter from './SharedFooter';
 
 function UptimeLogoCookie({ color = "dark", size = "medium" }: { color?: string; size?: string }) {
   const pathData = size === "large" ? svgPaths.p18fc0780 : size === "medium" ? svgPaths.p18fc0780 : svgPaths.p3dd42f80;
@@ -92,6 +94,25 @@ function CookieHeader({ onBackClick }: { onBackClick: () => void }) {
         <Box sx={{ transform: { xs: 'scale(0.7)', sm: 'scale(0.8)', md: 'scale(1)' } }}>
           <UptimeLogoCookie color="dark" size="medium" />
         </Box>
+      </Box>
+      
+      {/* Tagline */}
+      <Box sx={{ 
+        position: { xs: 'static', md: 'absolute' },
+        left: { md: '50%' },
+        top: { md: '260px' },
+        transform: { md: 'translateX(-50%)' },
+        display: 'flex',
+        justifyContent: 'center',
+        mb: { xs: 1, md: 0 }
+      }}>
+        <Typography variant="subtitle1" sx={{ 
+          textAlign: 'center', 
+          color: '#000',
+          fontSize: { xs: '14px', sm: '16px' }
+        }}>
+          The CDL Hiring Operating System
+        </Typography>
       </Box>
     </Box>
   );
@@ -530,7 +551,7 @@ function CookieContent() {
         >
           If you have questions about how we use cookies or want to exercise your privacy rights:<br/>
           <strong>Email:</strong> contact@getuptime.ai<br/>
-          <strong>Learn More:</strong> View our full Privacy Policy
+          <strong>Learn More:</strong> <NextLink href="/privacy-policy" style={{ color: '#0F172A', textDecoration: 'underline' }}>View our full Privacy Policy</NextLink>
         </Typography>
 
         {/* Why This Matters */}
@@ -562,61 +583,13 @@ function CookieContent() {
   );
 }
 
-function CookieFooter({ onBackClick }: { onBackClick: () => void }) {
-  return (
-    <Paper
-      sx={{
-        backgroundColor: '#0F172A',
-        color: 'white',
-        minHeight: { xs: '80px', md: '100px' },
-        px: { xs: 2, sm: 4, md: 0 },
-        py: { xs: 2, md: 0 },
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        position: 'relative',
-      }}
-    >
-      <Box sx={{ 
-        position: { xs: 'static', md: 'absolute' },
-        left: { md: '310px' },
-        top: { md: '19px' },
-        cursor: 'pointer'
-      }}
-      onClick={onBackClick}
-      >
-        <Box sx={{ transform: { xs: 'scale(0.8)', md: 'scale(1)' } }}>
-          <UptimeLogoCookie color="white" size="small" />
-        </Box>
-      </Box>
-      
-      <Box sx={{ 
-        position: { xs: 'static', md: 'absolute' },
-        right: { md: '310px' },
-        top: { md: '41px' },
-        textAlign: { xs: 'right', md: 'left' }
-      }}>
-          <Typography 
-            sx={{ 
-              fontSize: { xs: '12px', md: '14px' },
-              fontWeight: 300,
-              opacity: 0.5,
-              fontFamily: 'var(--font-inter)',
-            }}
-          >
-            Copyright 2025 © <span style={{ fontWeight: 600 }}>uptime</span>
-          </Typography>
-      </Box>
-    </Paper>
-  );
-}
 
 export default function CookiePolicyPage({ onBackClick }: { onBackClick: () => void }) {
   return (
     <Box sx={{ backgroundColor: 'white', minHeight: '100vh' }}>
       <CookieHeader onBackClick={onBackClick} />
       <CookieContent />
-      <CookieFooter onBackClick={onBackClick} />
+      <SharedFooter onBackClick={onBackClick} />
     </Box>
   );
 }

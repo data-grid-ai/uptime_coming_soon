@@ -15,8 +15,11 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
-import { Phone, Email, LocationOn, ArrowForward } from '@mui/icons-material';
+import { Phone, Email, LocationOn, ArrowForward, ExpandMore } from '@mui/icons-material';
 import svgPaths from '../imports/svg-11ii49tsrw';
 import modalSvgPaths from '../imports/svg-hjy3y4q6kq';
 import ManifestoPage from '../components/ManifestoPage';
@@ -1293,6 +1296,158 @@ function HeroSection({ onOpenModal, onShowManifesto }: { onOpenModal: () => void
   );
 }
 
+function FAQSection() {
+  const [expanded, setExpanded] = useState<string | false>('panel1');
+
+  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+  const faqData = [
+    {
+      question: "What is Uptime?",
+      answer: "Uptime is the CDL Hiring OS that connects trucking fleets with qualified drivers in 48 hours, replacing job boards and agencies with one platform that handles matching, compliance, and retention."
+    },
+    {
+      question: "How fast can Uptime really fill empty trucks?",
+      answer: "We deliver matched, audit-ready CDL drivers in under 48 hours compared to the 3-4 weeks it takes with traditional methods - some fleets get interviews scheduled within 24 hours."
+    },
+    {
+      question: "Is Uptime free for CDL drivers?",
+      answer: "Yes, Uptime is completely free for drivers - create one profile, get matched with the right fleet, and receive job offers in 48 hours without paying anything."
+    },
+    {
+      question: "When is Uptime launching?",
+      answer: "We're currently in closed beta with select fleets and drivers, onboarding new users weekly - join the waitlist for early access when we expand."
+    },
+    {
+      question: "What size fleets does Uptime work with?",
+      answer: "We're built for fleets with 25-500 trucks, but if you have fewer trucks or more, join the waitlist and we'll notify you when we expand to your fleet size."
+    },
+    {
+      question: "How much does Uptime cost for fleets?",
+      answer: "Uptime reduces cost-per-hire by 70% compared to recruitment agencies that charge $6,000-$12,000 per driver - think hundreds per hire, not thousands."
+    },
+    {
+      question: "Do drivers have to fill out multiple applications?",
+      answer: "No, drivers create one profile in under 3 minutes and they're done - when matched with a fleet, everything is already shared, no more uploading the same CDL photo 20 times."
+    },
+    {
+      question: "What about compliance and DOT requirements?",
+      answer: "Every driver comes pre-verified with CDL, MVR, PSP, and Clearinghouse checks complete - your driver files are audit-ready from day one."
+    },
+    {
+      question: "Is Uptime available in my area?",
+      answer: "Yes, Uptime covers all states - whether you're running regional routes or long-haul, we have drivers and fleets in your area."
+    },
+    {
+      question: "How does Uptime predict driver retention?",
+      answer: "Our AI analyzes 50+ factors including work history, route preferences, and behavioral patterns to show you retention risk scores before you hire - so you know which drivers are likely to stay beyond 90 days."
+    },
+    {
+      question: "When will I see ROI from using Uptime?",
+      answer: "Fleets making 3-5 hires per month become ROI-positive immediately - you'll save more in reduced recruitment costs and empty truck downtime than you spend on Uptime from day one."
+    }
+  ];
+
+  return (
+    <Container 
+      maxWidth="lg" 
+      sx={{
+        py: { xs: 6, md: 8 },
+        px: { xs: 2, md: 4 }
+      }}
+    >
+      <Typography
+        variant="h2"
+        sx={{
+          textAlign: 'center',
+          mb: { xs: 4, md: 6 },
+          color: '#0F172A',
+          fontSize: { xs: '20px', md: '24px', lg: '28px' },
+          fontWeight: 700,
+          fontFamily: 'var(--font-inter)',
+        }}
+      >
+        Everything You Need to Know About Uptime
+      </Typography>
+
+      <Box sx={{ maxWidth: '900px', mx: 'auto' }}>
+        {faqData.map((faq, index) => (
+          <Accordion
+            key={`panel${index + 1}`}
+            expanded={expanded === `panel${index + 1}`}
+            onChange={handleChange(`panel${index + 1}`)}
+            sx={{
+              mb: 2,
+              borderRadius: '12px !important',
+              boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              '&:before': {
+                display: 'none',
+              },
+              '&.Mui-expanded': {
+                margin: '0 0 16px 0',
+              }
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMore sx={{ color: '#0F172A' }} />}
+              sx={{
+                backgroundColor: expanded === `panel${index + 1}` ? '#f6ffed' : 'white',
+                borderRadius: '12px',
+                minHeight: '64px',
+                '&.Mui-expanded': {
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                },
+                '& .MuiAccordionSummary-content': {
+                  margin: '16px 0',
+                  '&.Mui-expanded': {
+                    margin: '16px 0',
+                  }
+                }
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: '16px', md: '18px' },
+                  fontWeight: 600,
+                  color: '#0F172A',
+                  fontFamily: 'var(--font-inter)',
+                }}
+              >
+                {faq.question}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                backgroundColor: '#f6ffed',
+                borderBottomLeftRadius: '12px',
+                borderBottomRightRadius: '12px',
+                pt: 0,
+                pb: 3,
+                px: 2,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: '14px', md: '16px' },
+                  lineHeight: 1.6,
+                  color: '#222c24',
+                  fontFamily: 'var(--font-inter)',
+                }}
+              >
+                {faq.answer}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Box>
+    </Container>
+  );
+}
+
 function Footer() {
   return (
     <Paper
@@ -1499,26 +1654,90 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   "mainEntity": [
                     {
                       "@type": "Question",
-                      "name": "How do I get access to Uptime?",
+                      "name": "What is Uptime?",
                       "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Uptime is currently in closed beta. Join our waitlist at getuptime.ai for early access when we launch."
+                        "text": "Uptime is the CDL Hiring OS that connects trucking fleets with qualified drivers in 48 hours, replacing job boards and agencies with one platform that handles matching, compliance, and retention."
                       }
                     },
                     {
                       "@type": "Question",
-                      "name": "How fast can Uptime fill empty trucks?",
+                      "name": "How fast can Uptime really fill empty trucks?",
                       "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Uptime delivers matched, audit-ready CDL drivers in under 48 hours, compared to the industry average of 3-4 weeks."
+                        "text": "We deliver matched, audit-ready CDL drivers in under 48 hours compared to the 3-4 weeks it takes with traditional methods - some fleets get interviews scheduled within 24 hours."
                       }
                     },
                     {
                       "@type": "Question",
-                      "name": "How does Uptime reduce hiring costs?",
+                      "name": "Is Uptime free for CDL drivers?",
                       "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Uptime reduces CDL driver hiring costs by 70% compared to traditional recruitment agencies, while delivering faster results and better retention."
+                        "text": "Yes, Uptime is completely free for drivers - create one profile, get matched with the right fleet, and receive job offers in 48 hours without paying anything."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "When is Uptime launching?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "We're currently in closed beta with select fleets and drivers, onboarding new users weekly - join the waitlist for early access when we expand."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What size fleets does Uptime work with?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "We're built for fleets with 25-500 trucks, but if you have fewer trucks or more, join the waitlist and we'll notify you when we expand to your fleet size."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How much does Uptime cost for fleets?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Uptime reduces cost-per-hire by 70% compared to recruitment agencies that charge $6,000-$12,000 per driver - think hundreds per hire, not thousands."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Do drivers have to fill out multiple applications?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No, drivers create one profile in under 3 minutes and they're done - when matched with a fleet, everything is already shared, no more uploading the same CDL photo 20 times."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What about compliance and DOT requirements?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Every driver comes pre-verified with CDL, MVR, PSP, and Clearinghouse checks complete - your driver files are audit-ready from day one."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Is Uptime available in my area?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, Uptime covers all states - whether you're running regional routes or long-haul, we have drivers and fleets in your area."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How does Uptime predict driver retention?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Our AI analyzes 50+ factors including work history, route preferences, and behavioral patterns to show you retention risk scores before you hire - so you know which drivers are likely to stay beyond 90 days."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "When will I see ROI from using Uptime?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Fleets making 3-5 hires per month become ROI-positive immediately - you'll save more in reduced recruitment costs and empty truck downtime than you spend on Uptime from day one."
                       }
                     }
                   ]
@@ -1541,6 +1760,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           }}
         >
           <HeroSection onOpenModal={handleOpenModal} onShowManifesto={handleShowManifesto} />
+          
+          <FAQSection />
           
           {/* Simple Policy Links at Bottom */}
           <Box
