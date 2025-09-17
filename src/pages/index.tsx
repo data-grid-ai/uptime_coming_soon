@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -1275,7 +1276,6 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
         <NextLink href="/manifesto" passHref>
           <Button
             variant="outlined"
-            component="a"
             sx={{
               width: '312px',
               backgroundColor: 'white',
@@ -1353,26 +1353,49 @@ function FAQSection() {
   ];
 
   return (
-    <Container 
-      maxWidth="lg" 
+    <Box
       sx={{
-        py: { xs: 6, md: 8 },
-        px: { xs: 2, md: 4 }
+        backgroundColor: 'white',
+        py: { xs: 6, md: 8 }
       }}
     >
-      <Typography
-        variant="h2"
+      <Container 
+        maxWidth="lg" 
         sx={{
-          textAlign: 'center',
-          mb: { xs: 4, md: 6 },
-          color: '#0F172A',
-          fontSize: { xs: '20px', md: '24px', lg: '28px' },
-          fontWeight: 700,
-          fontFamily: 'var(--font-inter)',
+          px: { xs: 2, md: 4 }
         }}
       >
-        Everything You Need to Know About Uptime
-      </Typography>
+        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              color: '#0F172A',
+              mb: 0,
+              fontWeight: 800,
+              position: 'relative',
+              zIndex: 10,
+              fontSize: { xs: '20px', md: '36px' },
+              display: 'inline-block'
+            }}
+          >
+            Everything You Need to Know About Uptime
+            <Box
+              sx={{
+                height: '10px',
+                width: '100%',
+                backgroundColor: '#91FF30',
+                position: 'absolute',
+                left: '50%',
+                top: '100%',
+                transform: { 
+                  xs: 'translate(-50%, -8px)', 
+                  md: 'translate(-50%, -12px)' 
+                },
+                zIndex: -1,
+              }}
+            />
+          </Typography>
+        </Box>
 
       <Box sx={{ maxWidth: '900px', mx: 'auto' }}>
         {faqData.map((faq, index) => (
@@ -1381,33 +1404,49 @@ function FAQSection() {
             expanded={expanded === `panel${index + 1}`}
             onChange={handleChange(`panel${index + 1}`)}
             sx={{
-              mb: 2,
-              borderRadius: '12px !important',
-              boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
+              mb: 0,
+              boxShadow: 'none',
+              border: 'none',
+              borderBottom: '1px solid #0022330D',
+              borderRadius: '0 !important',
               '&:before': {
                 display: 'none',
               },
+              '&:last-child': {
+                borderBottom: 'none'
+              },
               '&.Mui-expanded': {
-                margin: '0 0 16px 0',
+                margin: 0,
+                borderBottom: '2px solid #002233',
               }
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMore sx={{ color: '#0F172A' }} />}
+              expandIcon={
+                <Image
+                  src={expanded === `panel${index + 1}` ? "/icons/open.svg" : "/icons/close.svg"}
+                  alt={expanded === `panel${index + 1}` ? "Collapse" : "Expand"}
+                  width={12}
+                  height={12}
+                  style={{
+                    transform: expanded === `panel${index + 1}` ? 'rotate(180deg)' : 'none'
+                  }}
+                />
+              }
               sx={{
-                backgroundColor: expanded === `panel${index + 1}` ? '#f6ffed' : 'white',
-                borderRadius: '12px',
-                minHeight: '64px',
-                '&.Mui-expanded': {
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
-                },
+                backgroundColor: 'white',
+                borderRadius: 0,
+                minHeight: '80px',
+                px: 0,
+                py: 2,
                 '& .MuiAccordionSummary-content': {
                   margin: '16px 0',
                   '&.Mui-expanded': {
                     margin: '16px 0',
                   }
+                },
+                '& .MuiAccordionSummary-expandIconWrapper': {
+                  color: '#002233'
                 }
               }}
             >
@@ -1415,8 +1454,9 @@ function FAQSection() {
                 sx={{
                   fontSize: { xs: '16px', md: '18px' },
                   fontWeight: 600,
-                  color: '#0F172A',
+                  color: '#002233',
                   fontFamily: 'var(--font-inter)',
+                  lineHeight: 1.5
                 }}
               >
                 {faq.question}
@@ -1424,19 +1464,18 @@ function FAQSection() {
             </AccordionSummary>
             <AccordionDetails
               sx={{
-                backgroundColor: '#f6ffed',
-                borderBottomLeftRadius: '12px',
-                borderBottomRightRadius: '12px',
+                backgroundColor: 'white',
+                borderRadius: 0,
                 pt: 0,
-                pb: 3,
-                px: 2,
+                pb: 4,
+                px: 0,
               }}
             >
               <Typography
                 sx={{
-                  fontSize: { xs: '14px', md: '16px' },
+                  fontSize: { xs: '15px', md: '16px' },
                   lineHeight: 1.6,
-                  color: '#222c24',
+                  color: '#002233',
                   fontFamily: 'var(--font-inter)',
                 }}
               >
@@ -1446,7 +1485,8 @@ function FAQSection() {
           </Accordion>
         ))}
       </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }
 
