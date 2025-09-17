@@ -37,7 +37,7 @@ function UptimeLogo({ color = "white", size = "large" }: { color?: string; size?
         <g>
           <path 
             d={size === "large" ? svgPaths.p3f2a3d80 : svgPaths.p38848b00} 
-            fill={color === "white" ? "white" : "#0F172A"} 
+            fill={color === "white" ? "white" : "#002233"} 
           />
           <path 
             clipRule="evenodd" 
@@ -375,7 +375,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path 
                 d="M18 6L6 18M6 6l12 12" 
-                stroke="#0F172A" 
+                stroke="#002233" 
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
@@ -421,7 +421,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     py: { xs: '8px', sm: '10px', md: '12px', lg: '15px' },
                     borderRadius: '100px',
                     backgroundColor: activeTab === 'driver' ? '#e0e0e0' : 'transparent',
-                    color: '#222c24',
+                    color: '#002233',
                     fontSize: { xs: '12px', sm: '14px', md: '16px', lg: '18px' },
                     fontWeight: 600,
                     fontFamily: 'var(--font-inter)',
@@ -444,7 +444,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                     py: { xs: '8px', sm: '10px', md: '12px', lg: '15px' },
                     borderRadius: '100px',
                     backgroundColor: activeTab === 'fleet' ? '#e0e0e0' : 'transparent',
-                    color: '#222c24',
+                    color: '#002233',
                     fontSize: { xs: '12px', sm: '14px', md: '16px', lg: '18px' },
                     fontWeight: 600,
                     fontFamily: 'var(--font-inter)',
@@ -498,7 +498,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.name ? '#d32f2f' : '#222c24',
+                          color: errors.name ? '#d32f2f' : '#002233',
                         }
                       }}
                     />
@@ -539,9 +539,9 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.phone ? '#d32f2f' : '#222c24',
+                          color: errors.phone ? '#d32f2f' : '#002233',
                           '&::placeholder': {
-                            color: 'rgba(34,44,36,0.5)',
+                            color: 'rgba(0,34,51,0.5)',
                             opacity: 1,
                           }
                         }
@@ -589,7 +589,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.email ? '#d32f2f' : '#222c24',
+                          color: errors.email ? '#d32f2f' : '#002233',
                         }
                       }}
                     />
@@ -607,7 +607,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       sx={{
                         fontSize: '12px',
                         fontWeight: 600,
-                        color: 'rgba(34,44,36,0.5)',
+                        color: 'rgba(0,34,51,0.5)',
                         textTransform: 'uppercase',
                         mb: { xs: '6px', sm: '8px' },
                         fontFamily: 'var(--font-inter)',
@@ -624,7 +624,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: '#222c24',
+                          color: '#002233',
                           '&:before': {
                             display: 'none',
                           },
@@ -650,7 +650,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                             }}
                           >
                             <svg width="13" height="8" fill="none" viewBox="0 0 13 8">
-                              <path d={modalSvgPaths.p281e4100} fill="#0F172A" />
+                              <path d={modalSvgPaths.p281e4100} fill="#002233" />
                             </svg>
                           </Box>
                         )}
@@ -705,7 +705,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.cdlType ? '#d32f2f' : '#222c24',
+                          color: errors.cdlType ? '#d32f2f' : '#002233',
                           '&:before': {
                             display: 'none',
                           },
@@ -731,7 +731,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                             }}
                           >
                             <svg width="13" height="8" fill="none" viewBox="0 0 13 8">
-                              <path d={modalSvgPaths.p281e4100} fill="#0F172A" />
+                              <path d={modalSvgPaths.p281e4100} fill="#002233" />
                             </svg>
                           </Box>
                         )}
@@ -797,7 +797,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.companyName ? '#d32f2f' : '#222c24',
+                          color: errors.companyName ? '#d32f2f' : '#002233',
                         }
                       }}
                     />
@@ -835,7 +835,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.name ? '#d32f2f' : '#222c24',
+                          color: errors.name ? '#d32f2f' : '#002233',
                         }
                       }}
                     />
@@ -884,9 +884,9 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.phone ? '#d32f2f' : '#222c24',
+                          color: errors.phone ? '#d32f2f' : '#002233',
                           '&::placeholder': {
-                            color: 'rgba(34,44,36,0.5)',
+                            color: 'rgba(0,34,51,0.5)',
                             opacity: 1,
                           }
                         }
@@ -926,7 +926,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.email ? '#d32f2f' : '#222c24',
+                          color: errors.email ? '#d32f2f' : '#002233',
                         }
                       }}
                     />
@@ -972,7 +972,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: errors.fleetSize ? '#d32f2f' : (formData.fleetSize ? '#222c24' : 'rgba(34,44,36,0.5)'),
+                          color: errors.fleetSize ? '#d32f2f' : (formData.fleetSize ? '#002233' : 'rgba(0,34,51,0.5)'),
                           '&:before': {
                             display: 'none',
                           },
@@ -998,7 +998,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                             }}
                           >
                             <svg width="13" height="8" fill="none" viewBox="0 0 13 8">
-                              <path d={modalSvgPaths.p281e4100} fill="#0F172A" />
+                              <path d={modalSvgPaths.p281e4100} fill="#002233" />
                             </svg>
                           </Box>
                         )}
@@ -1031,7 +1031,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                       sx={{
                         fontSize: '12px',
                         fontWeight: 600,
-                        color: 'rgba(34,44,36,0.5)',
+                        color: 'rgba(0,34,51,0.5)',
                         textTransform: 'uppercase',
                         mb: { xs: '6px', sm: '8px' },
                         fontFamily: 'var(--font-inter)',
@@ -1048,7 +1048,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                           fontSize: '16px',
                           fontFamily: 'var(--font-inter)',
                           fontWeight: 400,
-                          color: '#222c24',
+                          color: '#002233',
                           '&:before': {
                             display: 'none',
                           },
@@ -1074,7 +1074,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                             }}
                           >
                             <svg width="13" height="8" fill="none" viewBox="0 0 13 8">
-                              <path d={modalSvgPaths.p281e4100} fill="#0F172A" />
+                              <path d={modalSvgPaths.p281e4100} fill="#002233" />
                             </svg>
                           </Box>
                         )}
@@ -1127,7 +1127,7 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
                   height: { xs: '48px', sm: '52px', md: '56px', lg: '60px' },
                   backgroundColor: '#91FF30',
                   borderRadius: '100px',
-                  color: '#222c24',
+                  color: '#002233',
                   fontSize: { xs: '16px', sm: '17px', md: '18px' },
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
@@ -1145,7 +1145,7 @@ Submit
                     right: { xs: '4px', sm: '10px' },
                     width: { xs: '36px', sm: '40px' },
                     height: { xs: '36px', sm: '40px' },
-                    backgroundColor: '#0F172A',
+                    backgroundColor: '#002233',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
@@ -1159,7 +1159,7 @@ Submit
                     viewBox="0 0 40 40"
                     style={{ width: '100%', height: '100%' }}
                   >
-                    <circle cx="20" cy="20" fill="#0F172A" r="20" />
+                    <circle cx="20" cy="20" fill="#002233" r="20" />
                     <path d={modalSvgPaths.p354521a0} fill="white" />
                   </svg>
                 </Box>
@@ -1182,13 +1182,14 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
         justifyContent: 'center',
         alignItems: 'center',
         py: 8,
+        mb: 12,
       }}
     >
       <Box>
         <UptimeLogo color="dark" size="large" />
       </Box>
       
-      <Typography variant="subtitle1" sx={{ mb: 9, mr: 4, color: '#000' }}>
+      <Typography variant="subtitle1" sx={{ mb: 9, mr: 4, color: '#002233' }}>
         The CDL Hiring Operating System
       </Typography>
       
@@ -1200,7 +1201,7 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
         <Typography 
           variant="h1" 
           sx={{ 
-            color: '#0F172A',
+            color: '#002233',
             textAlign: 'center',
             mb: 0,
             position: 'relative',
@@ -1236,7 +1237,7 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
             position: 'relative',
             fontFamily: 'var(--font-inter)',
             backgroundColor: '#91FF30',
-            color: '#222c24',
+            color: '#002233',
             boxShadow: 'none',
             pr: '15px',
             '&:hover': {
@@ -1259,7 +1260,7 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
             sx={{
               position: 'absolute',
               right: '10px',
-              backgroundColor: '#0F172A',
+              backgroundColor: '#002233',
               borderRadius: '50%',
               width: '40px',
               height: '40px',
@@ -1279,8 +1280,8 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
             sx={{
               width: '312px',
               backgroundColor: 'white',
-              color: '#222c24',
-              borderColor: '#000',
+              color: '#002233',
+              borderColor: '#002233',
               borderWidth: '2px',
               boxShadow: 'none',
               '&:hover': {
@@ -1369,7 +1370,7 @@ function FAQSection() {
           <Typography 
             variant="h2" 
             sx={{ 
-              color: '#0F172A',
+              color: '#002233',
               mb: 0,
               fontWeight: 800,
               position: 'relative',
@@ -1494,7 +1495,7 @@ function Footer() {
   return (
     <Paper
       sx={{
-        backgroundColor: '#0F172A',
+        backgroundColor: '#002233',
         color: 'white',
         py: 6,
         px: 4,
@@ -1831,7 +1832,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     fontSize: '12px',
                     cursor: 'pointer',
                     textDecoration: 'underline',
-                    color: '#0F172A',
+                    color: '#002233',
                     fontFamily: 'var(--font-inter)',
                     '&:hover': {
                       opacity: 1
@@ -1847,7 +1848,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   sx={{
                     opacity: 0.4,
                     fontSize: '12px',
-                    color: '#0F172A',
+                    color: '#002233',
                     fontFamily: 'var(--font-inter)',
                     userSelect: 'none',
                   }}
@@ -1863,7 +1864,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     fontSize: '12px',
                     cursor: 'pointer',
                     textDecoration: 'underline',
-                    color: '#0F172A',
+                    color: '#002233',
                     fontFamily: 'var(--font-inter)',
                     '&:hover': {
                       opacity: 1
