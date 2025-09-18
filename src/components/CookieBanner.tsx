@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   Box,
   Typography,
@@ -208,7 +209,7 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
               onClick={handleAcceptAll}
               sx={{
                 backgroundColor: '#91FF30',
-                color: '#0F172A',
+                color: '#002233',
                 fontWeight: 600,
                 fontFamily: 'var(--font-inter)',
                 px: { xs: 2, sm: 2 },
@@ -216,8 +217,10 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
                 borderRadius: '6px',
                 fontSize: { xs: '12px', sm: '12px' },
                 minWidth: { xs: '100%', sm: 'auto' },
+                boxShadow: 'none',
                 '&:hover': {
                   backgroundColor: '#a1ff50',
+                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
                 },
               }}
             >
@@ -471,8 +474,28 @@ export default function CookieBanner({ onConsentChange }: CookieBannerProps) {
             </Typography>
           </Box>
 
+          {/* Cookie Policy Link */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 2 }}>
+            <Link href="/cookie-policy" style={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  fontSize: '14px',
+                  color: '#666',
+                  fontFamily: 'var(--font-inter)',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: '#0F172A',
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                View our full Cookie Policy
+              </Typography>
+            </Link>
+          </Box>
+
           {/* Save Button */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
             <Button
               onClick={handleSavePreferences}
               sx={{

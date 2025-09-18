@@ -1102,15 +1102,15 @@ function EmailSignupModal({ open, onClose }: { open: boolean; onClose: () => voi
             </Box>
 
             {/* Submit Button - Fixed at bottom */}
-            <Box sx={{ 
+            <Box sx={{
               display: 'flex',
               justifyContent: 'center',
-              mt: { xs: '16px', sm: '20px', md: '24px', lg: '32px' },
-              pt: { xs: '16px', sm: '20px', md: '24px' },
+              mt: { xs: '16px', sm: '16px', md: '20px', lg: '24px' },
+              pt: { xs: '0', sm: '0', md: '0' },
               px: { xs: '0', sm: '0' },
-              borderTop: { xs: 'none', sm: '1px solid rgba(0,0,0,0.05)' },
-              backgroundColor: { xs: 'transparent', sm: 'rgba(255,255,255,0.8)' },
-              backdropFilter: { xs: 'none', sm: 'blur(8px)' },
+              borderTop: 'none',
+              backgroundColor: 'transparent',
+              backdropFilter: 'none',
               flexShrink: 0,
             }}>
               <Button
@@ -1182,7 +1182,7 @@ function HeroSection({ onOpenModal }: { onOpenModal: () => void }) {
         justifyContent: 'center',
         alignItems: 'center',
         py: 8,
-        mb: 12,
+        mb: 15,
       }}
     >
       <Box>
@@ -1357,7 +1357,8 @@ function FAQSection() {
     <Box
       sx={{
         backgroundColor: 'white',
-        py: { xs: 6, md: 8 }
+        pt: { xs: 6, md: 8 },
+        pb: { xs: 10, md: 12 }
       }}
     >
       <Container 
